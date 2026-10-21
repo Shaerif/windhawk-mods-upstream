@@ -28,17 +28,17 @@ published PDB files for a new taskbar build.
 - An invisible grip inside the top edge of the taskbar lets you drag the
   taskbar taller or shorter in whole rows. The row count is remembered. The
   grip draws nothing. The mouse cursor turns into a resize arrow over it.
-- With "Wrap taskbar buttons into rows" on, the taskbar buttons flow into the
-  rows and the notification area icons wrap into the same number of rows. The
-  clock, Wi-Fi, sound and battery don't change. It's experimental and off
-  by default.
+- "Wrap taskbar buttons into rows" is on by default. The taskbar buttons keep
+  their size and flow into the rows, so a taller taskbar holds more apps. The
+  notification area icons wrap into the same number of rows. The clock, Wi-Fi,
+  sound and battery don't change. It's experimental.
 
 ## Limits
 - The drag grip is for the primary taskbar, and only while it's horizontal.
   Secondary taskbars can follow the height, but I didn't test that.
-- With the wrap option off, the search box and the highlight behind the
-  active button stretch to the full height of a taller taskbar. Windows
-  draws them that way, the mod doesn't change them.
+- With the wrap option off, the taskbar buttons, the search box and the
+  highlight behind the active button stretch to the full height of a taller
+  taskbar. Windows draws them that way, the mod doesn't change them.
 - Other programs that reach explorer through XAML diagnostics (Windows 11
   Taskbar Styler, TranslucentTB, ExplorerBlurMica) share that interface with
   this mod. On build 29683 I ran Styler 1.10 with the WinXP theme next to this
@@ -83,9 +83,9 @@ Because it adapts GPL-3.0 code, this mod is GPL-3.0.
 - IconSize: 0
   $name: Taskbar button icon size
   $description: Icon size in pixels at 100% scaling. 0 keeps the Windows size.
-- MultirowLayout: false
+- MultirowLayout: true
   $name: Wrap taskbar buttons into rows (experimental)
-  $description: Moves taskbar buttons that don't fit on the first row to the rows below and wraps the notification area icons into the same rows. Off by default because it's experimental.
+  $description: Moves taskbar buttons that don't fit on the first row to the rows below and wraps the notification area icons into the same rows. With it off, a taller taskbar stretches the buttons instead.
 - EdgeResizeEnabled: true
   $name: Drag the top edge to resize
 - EdgeResizeGripPixels: 8
