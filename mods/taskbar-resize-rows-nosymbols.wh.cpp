@@ -1835,13 +1835,26 @@ bool IsFullscreenWindowOnTaskbarMonitor(HWND hTaskbarWnd) {
     if (!foreground || foreground == hTaskbarWnd || IsZoomed(foreground)) {
         return false;
     }
-    WCHAR className[32];
+    WCHAR className[32]{};
     if (GetClassName(foreground, className, ARRAYSIZE(className)) &&
         (_wcsicmp(className, L"Progman") == 0 ||
          _wcsicmp(className, L"WorkerW") == 0 ||
          // Start, Search and other shell flyouts. They cover the monitor
          // while the taskbar stays on screen.
          _wcsicmp(className, L"Windows.UI.Core.CoreWindow") == 0)) {
+        return false;
+    }
+    // The taskbar's own XAML host window and its thumbnail popups cover the
+    // monitor when the taskbar has focus (after Win+D, say). They live in the
+    // taskbar process. A File Explorer window lives there too, so the class
+    // is checked as well and a full screen folder window still hides the grip.
+    DWORD foregroundPid = 0;
+    DWORD taskbarPid = 0;
+    GetWindowThreadProcessId(foreground, &foregroundPid);
+    GetWindowThreadProcessId(hTaskbarWnd, &taskbarPid);
+    if (foregroundPid && foregroundPid == taskbarPid &&
+        (_wcsicmp(className, L"XamlExplorerHostIslandWindow") == 0 ||
+         _wcsicmp(className, L"Xaml_WindowedPopupClass") == 0)) {
         return false;
     }
     MONITORINFO monitorInfo{sizeof(monitorInfo)};
